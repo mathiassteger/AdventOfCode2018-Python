@@ -1,23 +1,20 @@
 import InputHelper as iH
 
 iH = iH.InputHelper(1)
-lines = iH.lines()
+lines = iH.lines(do_strip=True)
 
 sums = []
 sum = 0
-boolean = True
-while boolean:
+
+while True:
     for line in lines:
-        line = line.strip()
         if line[0] == "+":
-            sum+= int(line[1:])
+            sum += int(line[1:])
         else:
-            sum-= int(line[1:])
+            sum -= int(line[1:])
 
         if sum in sums:
-            boolean = False
-            break
+            print(sum)
+            exit()
 
         sums.append(sum)
-
-print(sum)
