@@ -4,17 +4,14 @@ iH = iH.InputHelper(1)
 lines = iH.lines(do_strip=True)
 
 sums = []
-sum = 0
+rsum = 0
 
 while True:
     for line in lines:
-        if line[0] == "+":
-            sum += int(line[1:])
-        else:
-            sum -= int(line[1:])
+        rsum += int(line)
 
-        if sum in sums:
-            print(sum)
+        if rsum in sums:
+            print(rsum)
             exit()
 
-        sums.append(sum)
+        sums.append(rsum)
