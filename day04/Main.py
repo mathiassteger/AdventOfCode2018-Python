@@ -4,7 +4,7 @@ import datetime
 import collections
 
 iH = iH.InputHelper("4")
-lines = iH.lines(do_strip=True)
+lines = iH.lines
 
 nlines = []
 for line in lines:

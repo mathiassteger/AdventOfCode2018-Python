@@ -1,7 +1,7 @@
 import InputHelper as iH
 
 iH = iH.InputHelper(3)
-lines = iH.lines(do_strip=True)
+lines = iH.lines
 
 ids = []
 x = []

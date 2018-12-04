@@ -1,7 +1,7 @@
 import InputHelper as iH
 
 iH = iH.InputHelper(2)
-lines = iH.lines(do_strip=True)
+lines = iH.lines
 
 sum_two = 0
 sum_three = 0

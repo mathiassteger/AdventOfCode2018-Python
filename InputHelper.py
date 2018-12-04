@@ -1,11 +1,14 @@
 import os
+import re
 
 
 class InputHelper:
-    def __init__(self, dayNr):
-        self.dayNr = dayNr
+    def __init__(self, day_nr):
+        self.dayNr = day_nr
+        self.lines = self.make_lines(do_strip=True)
+        self.numbers = self.get_all_numbers(self.lines)
 
-    def lines(self, do_strip=False):
+    def make_lines(self, do_strip=False):
         os.chdir('..')
         f = open('input' + str(self.dayNr) + '.txt', 'r')
 
@@ -17,3 +20,7 @@ class InputHelper:
         f.close()
 
         return lines
+
+    def get_all_numbers(self, lines):
+        numbers = map(lambda s: map(int, re.findall(r'-?\d+', s)), lines)
+        return [list(x) for x in numbers]
