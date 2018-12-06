@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import InputHelper as iH
 
-iH = iH.InputHelper("")
+iH = iH.InputHelper(5)
 lines = iH.lines
 numbers = iH.numbers
 
