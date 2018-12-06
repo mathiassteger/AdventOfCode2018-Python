@@ -30,7 +30,7 @@ for x, y in zip(xs, ys):
 for i, y_ in enumerate(grid):
     for j, x_ in enumerate(grid[i]):
         cands = []
-        mind = 500
+        mind = 1e7
         if grid[i][j][1] != -1:
             for x, y in zip(xs, ys):
                 d = md((j, i), (x, y))
@@ -85,10 +85,19 @@ for x in fins:
     if max > lastmax:
         fin = x
         lastmax = max
-        print(fin, lastmax)
 
-print("Result:", fin, lastmax)  # 5941
+print("Result1:", fin, lastmax)  # 5941
 
+regions = 0
+for i in range(-500, 501):
+    for j in range(-500, 501):
+        sum = 0
+        for x, y in zip(xs, ys):
+            sum += md((i, j), (x, y))
+        if sum < 10000:
+            regions += 1
+
+print("Result2:", regions)
 
 '''
 (331, 86) 1583  X
