@@ -12,14 +12,19 @@ added = set()
 letters = set()
 times = {}
 result = ""
-workers = [".", ".", ".", ".", "."]
+
 abc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
        'w', 'x', 'y', 'z']
 
 abc = [x.upper() for x in abc]
 
+n_workers = 2
+base = 0
 for i, x in enumerate(abc):
-    times[x] = 60 + i + 1
+    times[x] = base + i + 1
+workers = []
+for i in range(n_workers):
+    workers.append(".")
 
 for line in lines:
     current = line.split()[1]
@@ -42,39 +47,51 @@ for x in letters:
         predecessors[x] = []
         l.append(x)
 
+seconds = 0
 while len(l) > 0:
     l.sort()
     ccs = []
     for x in l:
-        if len(predecessors[x]) == 0:
-            ccs.append(x)
-            break
+        if x not in workers:
+            if len(predecessors[x]) == 0:
+                ccs.append(x)
 
-    if len(ccs) == 0:
-        print("CC none")
-        exit()
-
-    rccs = ccs
-    for worker in workers:
-        pass
+    remove_ccs = []
+    for i, worker in enumerate(workers):
+        if worker == ".":
+            if len(ccs) > 0:
+                workers[i] = ccs[0]
+                del (ccs[0])
+        else:
+            times[worker] -= 1
+            if times[worker] == 0:
+                remove_ccs.append(worker)
+                workers[i] = "."
 
     for key, value in predecessors.items():
-        for cc in rccs:
+        for cc in remove_ccs:
             if cc in value:
                 value.remove(cc)
 
-    for cc in rccs:
+    for cc in remove_ccs:
         result += cc
 
-    for cc in rccs:
+    for cc in remove_ccs:
         if cc not in used and cc in successors.keys():
             for c in successors[cc]:
                 if c not in added:
                     l.append(c)
                     added.add(c)
 
-    for cc in rccs:
+    for cc in remove_ccs:
         used.add(cc)
         l.remove(cc)
+
+    print("{}\t\t".format(seconds), end='')
+    for worker in workers:
+        print("{}\t\t".format(worker), end='')
+    print("{}\t\t".format(result))
+
+    seconds += 1
 
 print(result)
