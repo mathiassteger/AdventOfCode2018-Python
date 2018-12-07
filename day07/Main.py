@@ -10,7 +10,16 @@ l = []
 used = set()
 added = set()
 letters = set()
+times = {}
 result = ""
+workers = [".", ".", ".", ".", "."]
+abc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+       'w', 'x', 'y', 'z']
+
+abc = [x.upper() for x in abc]
+
+for i, x in enumerate(abc):
+    times[x] = 60 + i + 1
 
 for line in lines:
     current = line.split()[1]
@@ -28,28 +37,23 @@ for line in lines:
     else:
         predecessors[follower] = [current]
 
-
 for x in letters:
     if x not in predecessors.keys():
         predecessors[x] = []
         l.append(x)
 
 while len(l) > 0:
-    print("List:", l)
     l.sort()
     cc = None
     for x in l:
-        print(x, predecessors[x])
         if len(predecessors[x]) == 0:
             cc = x
             break
-
 
     if cc == None:
         print("CC none")
         exit()
 
-    print("CC:", cc)
     for key, value in predecessors.items():
         if cc in value:
             value.remove(cc)
@@ -66,4 +70,4 @@ while len(l) > 0:
     used.add(start)
     l.remove(cc)
 
-print(result)  # FQUSZRPOTYONMKIIHGCBWC
+print(result)
