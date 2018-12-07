@@ -44,30 +44,37 @@ for x in letters:
 
 while len(l) > 0:
     l.sort()
-    cc = None
+    ccs = []
     for x in l:
         if len(predecessors[x]) == 0:
-            cc = x
+            ccs.append(x)
             break
 
-    if cc == None:
+    if len(ccs) == 0:
         print("CC none")
         exit()
 
+    rccs = ccs
+    for worker in workers:
+        pass
+
     for key, value in predecessors.items():
-        if cc in value:
-            value.remove(cc)
+        for cc in rccs:
+            if cc in value:
+                value.remove(cc)
 
-    result += cc
+    for cc in rccs:
+        result += cc
 
-    if cc not in used and cc in successors.keys():
-        for c in successors[cc]:
-            if c not in added:
-                l.append(c)
-                added.add(c)
+    for cc in rccs:
+        if cc not in used and cc in successors.keys():
+            for c in successors[cc]:
+                if c not in added:
+                    l.append(c)
+                    added.add(c)
 
-    start = cc
-    used.add(start)
-    l.remove(cc)
+    for cc in rccs:
+        used.add(cc)
+        l.remove(cc)
 
 print(result)
