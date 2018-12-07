@@ -1,6 +1,6 @@
 import InputHelper as iH
 
-iH = iH.InputHelper(0)
+iH = iH.InputHelper(7)
 lines = iH.lines
 numbers = iH.numbers
 
@@ -18,8 +18,8 @@ abc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'
 
 abc = [x.upper() for x in abc]
 
-n_workers = 2
-base = 0
+n_workers = 5
+base = 60
 for i, x in enumerate(abc):
     times[x] = base + i + 1
 workers = []
@@ -48,44 +48,56 @@ for x in letters:
         l.append(x)
 
 seconds = 0
+l.sort()
+ccs = []
+for x in l:
+    if x not in workers:
+        if len(predecessors[x]) == 0:
+            ccs.append(x)
 while len(l) > 0:
-    l.sort()
-    ccs = []
-    for x in l:
-        if x not in workers:
-            if len(predecessors[x]) == 0:
-                ccs.append(x)
-
     remove_ccs = []
-    for i, worker in enumerate(workers):
-        if worker == ".":
+
+    for i in range(len(workers)):
+        if workers[i] == ".":
             if len(ccs) > 0:
                 workers[i] = ccs[0]
                 del (ccs[0])
         else:
-            times[worker] -= 1
-            if times[worker] == 0:
-                remove_ccs.append(worker)
-                workers[i] = "."
+            times[workers[i]] -= 1
+            if times[workers[i]] == 0:
+                remove_ccs.append(workers[i])
 
-    for key, value in predecessors.items():
-        for cc in remove_ccs:
-            if cc in value:
-                value.remove(cc)
+                for key, value in predecessors.items():
+                    for cc in remove_ccs:
+                        if cc in value:
+                            value.remove(cc)
 
-    for cc in remove_ccs:
-        result += cc
+                for cc in remove_ccs:
+                    result += cc
 
-    for cc in remove_ccs:
-        if cc not in used and cc in successors.keys():
-            for c in successors[cc]:
-                if c not in added:
-                    l.append(c)
-                    added.add(c)
+                for cc in remove_ccs:
+                    if cc not in used and cc in successors.keys():
+                        for c in successors[cc]:
+                            if c not in added:
+                                l.append(c)
+                                added.add(c)
 
-    for cc in remove_ccs:
-        used.add(cc)
-        l.remove(cc)
+                for cc in remove_ccs:
+                    used.add(cc)
+                    l.remove(cc)
+
+                l.sort()
+                ccs = []
+                for x in l:
+                    if x not in workers:
+                        if len(predecessors[x]) == 0:
+                            ccs.append(x)
+
+                if len(ccs) > 0:
+                    workers[i] = ccs[0]
+                    del (ccs[0])
+                else:
+                    workers[i] = "."
 
     print("{}\t\t".format(seconds), end='')
     for worker in workers:
