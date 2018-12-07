@@ -111,4 +111,4 @@ print("Result2:", regions)
 Result: (190, 288) 5941
 '''
 
-# 2 stars for finishing, 2 stars for each member you were faster than, so: -16 for me, -14 for hwiards
+# 2 stars for finishing, 2 stars for each member you were faster than, so: -16 for me, -? for hwiards
